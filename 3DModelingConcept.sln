@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DModelling.Web", "WebApplication4\3DModelling.Web.csproj", "{FDFBC2AA-08A2-4EC1-8D2C-29CCA1ECF8A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DModelling.Web", "3dModelConcept\3DModelling.Web.csproj", "{FDFBC2AA-08A2-4EC1-8D2C-29CCA1ECF8A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
