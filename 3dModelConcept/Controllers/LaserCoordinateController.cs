@@ -12,9 +12,19 @@ namespace WebApplication4.Controllers
         // GET: api/LaserCoordinate
         public IEnumerable<Models.LaserCoordinate> Get()
         {
+            return Get(0);
+        }
+
+        // GET: api/LaserCoordinate/5
+        public IEnumerable<Models.LaserCoordinate> Get(int id)
+        {
+            Controllers.DataFileController cntrlr = new Controllers.DataFileController();
+
+            string fileName = (from x in cntrlr.Get() where x.ID == id select x.Name).Single();
+
             List<Models.LaserCoordinate> lst = new List<Models.LaserCoordinate>();
 
-            string fileloc = Properties.Settings.Default.DataFileLocation + "3DModle-Wagon.csv";
+            string fileloc = Properties.Settings.Default.DataFileLocation + fileName;//"3DModle-Wagon.csv";
 
             string[] fileContents =
                 System.IO.File.ReadAllLines(fileloc);
@@ -43,12 +53,7 @@ namespace WebApplication4.Controllers
             }
 
             return lst;
-        }
 
-        // GET: api/LaserCoordinate/5
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST: api/LaserCoordinate

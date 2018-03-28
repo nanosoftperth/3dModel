@@ -19,6 +19,11 @@ namespace WebApplication4.Controllers
             List<Models.File> files = (from x in filesWithPAth
                                        select new Models.File(x.Split('\\').Last())).ToList();
 
+            for (int i = 0; i < files.Count(); i++)
+            {
+                files[i].ID = i;
+            }
+
             return files;            
         }
 

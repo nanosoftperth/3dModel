@@ -9,6 +9,7 @@ namespace WebApplication4.Models
     {
 
         public string Name { get; set; }
+        public int ID { get; set; }
 
         public File(string _name)
         {

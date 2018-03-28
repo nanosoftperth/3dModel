@@ -21,3 +21,10 @@ a {
     padding: 5px;
     z-index: 100;
 }
+
+#optionsselecter{
+    position:absolute;
+    top:5px;
+    right:5px;
+
+}

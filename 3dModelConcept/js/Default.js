@@ -1,7 +1,10 @@
-﻿var settings = {
+﻿
+var urlBASE = '../api/LaserCoordinate/';
+
+var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "/api/LaserCoordinate",
+    "url": "api/LaserCoordinate",
     "method": "GET",
     "headers": {
         "cache-control": "no-cache",
@@ -9,11 +12,23 @@
     }
 }
 
-$.ajax(settings).done(function (response) {
 
-    init(response);
-    //console.log(response);
-});
+function modelChange(val) {
+
+    $('#DropDownList1').prop('disabled', 'disabled');
+
+    settings.url = urlBASE + val;
+
+    $.ajax(settings).done(function (response) {
+
+        init(response);
+        $('#DropDownList1').prop('disabled', false);
+
+    });
+}
+
+
+
 
 
 if (!Detector.webgl) Detector.addGetWebGLMessage();
@@ -25,13 +40,14 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
-//init();
-//animate();
 
 function init(particles) {
 
     container = document.createElement('div');
-    document.body.appendChild(container);
+    //document.body.appendChild(container);
+
+    $('#3dModelContainer div').remove();
+    $('#3dModelContainer').append(container);
 
     //camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
     // camera.position.z = 100;
@@ -43,17 +59,6 @@ function init(particles) {
     camera.position.z = 3600;
     camera.rotation = { x: 0.22192157831362413, y: 0.30165147221819744, z: -0.06907040577362897 };
 
-
-    controls = new THREE.TrackballControls(camera);
-    controls.rotateSpeed = 1.0;
-    controls.zoomSpeed = 1.2;
-    controls.panSpeed = 0.8;
-    controls.noZoom = false;
-    controls.noPan = false;
-    controls.staticMoving = true;
-    controls.dynamicDampingFactor = 0.3;
-    controls.keys = [65, 83, 68];
-    controls.addEventListener('change', render);
 
 
     scene = new THREE.Scene();
@@ -137,10 +142,25 @@ function init(particles) {
 
     scene.add(particles);
 
+    //create the renderer
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
+
+    //add ability to control the camera with the mouse etc
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
+    controls.rotateSpeed = 1.0;
+    controls.zoomSpeed = 1.2;
+    controls.panSpeed = 0.8;
+    controls.noZoom = false;
+    controls.noPan = false;
+    controls.staticMoving = true;
+    controls.dynamicDampingFactor = 0.3;
+    controls.keys = [65, 83, 68];
+    controls.addEventListener('change', render);
+
+
 
     stats = new Stats();
     container.appendChild(stats.dom);
@@ -212,30 +232,18 @@ function animate() {
 
 function render() {
 
-
     renderer.render(scene, camera);
     stats.update();
-
-    //var time = Date.now() * 0.001;
-
-    //camera.position.x += (mouseX - camera.position.x)* 0.05;
-    //camera.position.y += (- mouseY - camera.position.y) * 0.05;
-
-    //camera.lookAt(scene.position);
-
-    //for (i = 0; i < scene.children.length; i++) {
-
-    //     var object = scene.children[i];
-
-    //     if (object instanceof THREE.Points) {
-
-    //object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
-
-    //     }
-
-    // }
-
-
-
-
 }
+
+
+
+$(document).ready(function () {
+
+    //assign the clieck event listener to the drop down list 
+    $('#DropDownList1').change(function () { modelChange($(this).val()) });
+
+});
+
+//select the first option in the list
+modelChange(1);
